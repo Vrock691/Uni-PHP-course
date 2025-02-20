@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Squelette valide de page Web</title>
+</head>
+
+<body>
+	<form action="td2controleur.php" method="post" enctype="multipart/form-data">
+		<fieldset>
+			<legend>Location de véhicule</legend>
+
+			<label for="type">Type</label>
+			<select name="type" id="type">
+				<option value="Tourstique">Tourstique</option>
+				<option value="Utilitaire">Utilitaire</option>
+			</select>
+
+			<br><br>
+			<label for="energie">Energie</label>
+			<ul>
+				<li><input type="radio" name="energie" id="essence" value="essence">Essence</li>
+				<li><input type="radio" name="energie" id="electrique" value="electrique" checked>Electrique</li>
+				<li><input type="radio" name="energie" id="gpl" value="gpl">GPL</li>
+			</ul>
+
+			<label for="nbj">Nombre de jours</label>
+			<input type="number" name="nbj" id="nbj">
+
+			<br><br>
+			<label for="assurance">Assurance</label>
+			<input type="checkbox" name="assurance" id="assurance">
+
+			<br><br>
+			<label for="photo">Photo du véhicule</label><br>
+			<input type="file" name="photo" id="photo">
+
+			<br><br>
+			<input type="reset">
+			<input type="submit">
+		</fieldset>
+
+	</form>
+</body>
+
+</html>
