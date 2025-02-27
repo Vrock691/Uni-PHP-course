@@ -1,0 +1,5 @@
+{
+    "image":"mcr.microsoft.com/devcontainers/universal:2",
+    "forwardPorts": [8000],
+    "postStartCommand": "php -S localhost:8000",
+}
