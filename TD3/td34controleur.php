@@ -24,8 +24,24 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
 } else if ($_SESSION["login"]) {
     $logged = $ID->verif($_SESSION['login'], $_SESSION['password']);
     if ($logged == 1) {
-        session_destroy();
-        $message = "Connecté";
+        if (!($_GET["action"])) {
+            $cible = $_SERVER["PHP_SELF"] . "?action=suite";
+            $message = "On continue";
+        } else {
+            switch ($_GET["action"]) {
+                case 'suite':
+                    $cible = $_SERVER["PHP_SELF"] . "?action=fin";
+                    $message = "Il faut s'arreter maintenant";
+                    break;
+                
+                default:
+                    session_destroy();
+                    $cible = $_SERVER["PHP_SELF"];
+                    $message = "Bye Bye";
+                    break;
+            }
+        }
+
         $TBS->LoadTemplate("td34vue-msg.tpl.html");
         $TBS->Show();
     } else {
@@ -36,4 +52,5 @@ if (isset($_POST['login']) && isset($_POST['password'])) {
     $TBS->LoadTemplate("td34vue-form.tpl.html");
     $TBS->Show();
 }
+
 ?>
