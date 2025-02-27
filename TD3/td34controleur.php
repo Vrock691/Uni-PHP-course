@@ -7,35 +7,33 @@ require("./td34modele.class.php");
 
 $TBS = new clsTinyButStrong();
 $ID = new ID();
+$cible = $_SERVER['PHP_SELF'];
 
 if (isset($_POST['login']) && isset($_POST['password'])) {
-    $TBS->LoadTemplate("td34vue-msg.tpl.html");
-    
     $logged = $ID->verif($_POST['login'], $_POST['password']);
     if ($logged == 1) {
         $_SESSION['login'] = $_POST['login'];
         $_SESSION['password'] = $_POST['password'];
-        $TBS->MergeBlock('message', "Indentifiants corrects");
+        $message = "Indentifiants corrects";
     } else {
-        $TBS->MergeBlock('message', "Indentifiant ou mot de passe incorrect");
+        $message = "Indentifiant ou mot de passe incorrect";
     }
+
+    $TBS->LoadTemplate("td34vue-msg.tpl.html");
+    $TBS->Show();
 } else if ($_SESSION["login"]) {
-    
     $logged = $ID->verif($_SESSION['login'], $_SESSION['password']);
     if ($logged == 1) {
         session_destroy();
+        $message = "Connecté";
         $TBS->LoadTemplate("td34vue-msg.tpl.html");
-        $TBS->MergeBlock('message', "Connecté");
+        $TBS->Show();
     } else {
         $TBS->LoadTemplate("td34vue-form.tpl.html");
-        $TBS->MergeBlock('message', "Indentifiant ou mot de passe incorrect");
+        $TBS->Show();
     }
 } else {
     $TBS->LoadTemplate("td34vue-form.tpl.html");
+    $TBS->Show();
 }
-
-$TBS->MergeBlock('cible', $_SERVER['PHP_SELF']);
-
-$TBS->Show();
-
 ?>
