@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>TD6</title>
+</head>
+
+<body>
+
+    <h1>TD5</h1>
+    <p>[onshow.etatConnexion]</p>
+
+    <table>
+        <caption>Liste des matières</caption>
+        <tr>
+            <th>codemat</th>
+            <th>libelle</th>
+            <th>coef</th>
+            <th>suppression</th>
+        </tr>
+        <tr>
+            <td>[codemat.val;block=tr]</td>
+            <td>[libelle.val;block=tr]</td>
+            <td>[coef.val;block=tr]</td>
+            <td><a href="[onshow.cible]?suivant=suppr&codemat=[codemat.val;block=tr]">Effacer</a></td>
+        </tr>
+    </table>
+
+    <a href="[onshow.cible]?suivant=form_ajout">Ajouter une matière</a>
+
+</body>
+
+</html>
