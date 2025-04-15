@@ -8,8 +8,9 @@ class Post {
     private $content;
     private $author;
     private $created_at;
+    private $image;
 
-    public function __construct($pdo, $id, $title, $desc, $content, $author, $created_at) {
+    public function __construct($pdo, $id, $title, $desc, $content, $author, $created_at, $image) {
         $this->pdo = $pdo;
         $this->id = $id;
         $this->title = $title;
@@ -17,6 +18,7 @@ class Post {
         $this->content = $content;
         $this->author = $author;
         $this->created_at = $created_at;
+        $this->image = $image;
     }
 }
 

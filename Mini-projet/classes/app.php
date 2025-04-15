@@ -3,9 +3,11 @@
 class App {
 
     private $tbs;
+    private $feed;
     
-    function __construct($_tbs) {
+    function __construct($_tbs, $feed) {
         $this->tbs = $_tbs;
+        $this->feed = $feed;
     }
 
     private function login() {
@@ -19,7 +21,9 @@ class App {
     }
 
     private function feed() {
+        $this->feed->fetchFeed();
         $this->tbs->LoadTemplate("./pages/feed.html");
+        $this->tbs->MergeBlock("feed", $this->feed->getFeed());
         $this->tbs->Show();
     }
 

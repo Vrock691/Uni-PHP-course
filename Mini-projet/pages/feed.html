@@ -22,11 +22,12 @@
         </header>
         <section>
             <h2>Derniers posts</h2>
-            <article>
-                <h3>Titre de l'article 1</h3>
-                <p>Résumé de l'article 1...</p>
-                <a href="article1.html">Lire la suite</a>
+            <article id="[feed.id;block=begin]">
+                <h3>[feed.title]</h3>
+                <p>[feed.desc]</p>
+                <p>De [feed.name] - posté le [feed.created_at]</p>
             </article>
+            [feed.id;block=end]
         </section>
     </main>
 </body>
