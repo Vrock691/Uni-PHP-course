@@ -29,22 +29,37 @@ class User {
     }
 
     public function login($id, $password, $pdo) {
-        // Vérifier les identifiants avec la bdd
-        $stmt = $pdo->prepare("SELECT id, name, bio, status FROM users WHERE id = :id AND password = :password");
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':password', $password);
-        $stmt->execute();
+        // Gérer le post de connexion
+        if (isset($_POST["id"]) && isset($_POST["password"])) {
+            $id = $_POST["id"];
+            $password = $_POST["password"];
+            
+            // Vérifier les identifiants avec la bdd
+            $stmt = $pdo->prepare("SELECT id, name, bio, status FROM users WHERE id = :id AND password = :password");
+            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':password', $password);
+            $stmt->execute();
 
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($user) {
-            $this->id = $user['id'];
-            $this->name = $user['name'];
-            $this->bio = $user['bio'];
-            $this->status = $user['status'];
-            return true;
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($user) {
+                $this->id = $user['id'];
+                $this->name = $user['name'];
+                $this->bio = $user['bio'];
+                $this->status = $user['status'];
+
+                $_SESSION["userID"] = $this->getId($id);
+                $this->loginMessage = "Connexion réussie";
+                return true;
+            } else {
+                // Afficher un message d'erreur
+                $this->loginMessage = "Identifiants incorrects"; 
+                return false;
+            }
+        } else {
+            // Afficher un message d'erreur
+            $this->loginMessage = "Veuillez entrer vos identifiants";
+            return false;
         }
-
-        return false;
     }
 
 }

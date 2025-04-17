@@ -42,30 +42,36 @@ class App {
 
         switch ($view) {
             case 'login':   
-                // Gérer le post de connexion
-                if (isset($_POST["id"]) && isset($_POST["password"])) {
-                    $id = $_POST["id"];
-                    $password = $_POST["password"];
-                    
-                    // Vérifier les identifiants
-                    if ($this->user->login($id, $password, $this->pdo)) {
-                        $_SESSION["userID"] = $this->user->getId($id);
-                        $this->user->loginMessage = "Connexion réussie";
-                        // Redirection vers le profil
-                        header("Location: " . $_SERVER['PHP_SELF'] . "?view=account");
-                        exit;
-                    } else {
-                        // Afficher un message d'erreur
-                        $this->user->loginMessage = "Identifiants incorrects"; 
-                    }
+                if (isset($_SESSION["userID"])) {
+                    header("Location: " . $_SERVER['PHP_SELF'] . "?view=");
+                    exit;
                 }
-                $this->login();
+
+                if ($this->user->login($this->pdo)) {
+                    // Connexion effectuée
+                    // Redirection vers le profil
+                    header("Location: " . $_SERVER['PHP_SELF'] . "?view=account");
+                    exit;
+                } else {
+                    // Connexion échouée
+                    // Affichage du message d'erreur
+                    $this->tbs->MergeField('loginMessage', $this->user->loginMessage);
+                    $this->login();
+                }
+                break;
+
+            case 'logout':
+                // Déconnexion
+                session_destroy();
+                header("Location: " . $_SERVER['PHP_SELF'] . "?view=");
+                exit;
                 break;
                 
             case 'account':
                 // Si l'utilisateur n'est pas connecté, on affiche la page de login
                 if (!isset($_SESSION["userID"])) {
-                    $this->login();
+                    header("Location: " . $_SERVER['PHP_SELF'] . "?view=login");
+                    exit;
                 } else {
                     // Sinon, on affiche le profil
                     $this->account();
