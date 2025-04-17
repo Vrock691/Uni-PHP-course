@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion à votre compte</title>
 </head>
 <body>
-    <form action="[onshow.cible]" method="post">
+    <form action="[onshow.cible]?view=login" method="post">
+        <p>[onshow.user.loginMessage]</p>
         <fieldset>
             <legend>Identification</legend>
-            <label for="login">Login</label> :
-            <input type="text" id="login" name="login" required />
+            <label for="id">ID du compte</label> :
+            <input type="text" id="id" name="id" required />
             <label for="password">Mot de passe</label> :
             <input type="password" id="password" name="password" required />
             <label for="submit"></label>

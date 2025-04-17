@@ -14,6 +14,10 @@ $tbs = new clsTinyButStrong();
 require('./connect.inc.php');
 $dbStatus = "loading";
 
+// Initialisation de la session
+session_start();
+$user = new User(0, "", "", 0);
+
 try {
 
     // Connexion à la BDD
@@ -28,7 +32,7 @@ try {
     $feed = new Feed($pdo, $tbs);
 
     // Préparation de l'application
-    $app = new App($tbs, $feed);
+    $app = new App($tbs, $feed, $user, $pdo);
     $app->engine();
 
 } catch (PDOException $error) {

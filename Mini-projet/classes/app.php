@@ -4,14 +4,19 @@ class App {
 
     private $tbs;
     private $feed;
+    private $user;
+    private $pdo;
     
-    function __construct($_tbs, $feed) {
+    function __construct($_tbs, $feed, $user, $pdo) {
         $this->tbs = $_tbs;
         $this->feed = $feed;
+        $this->user = $user;
+        $this->pdo = $pdo;
     }
 
     private function login() {
         $this->tbs->LoadTemplate("./pages/login.html");
+        $this->tbs->MergeField('loginMessage', $this->user->loginMessage);
         $this->tbs->Show();
     }
 
@@ -27,16 +32,53 @@ class App {
         $this->tbs->Show();
     }
 
+    private function viewArticle($id) {
+        $this->tbs->LoadTemplate("./pages/post.html");
+        $this->tbs->Show();
+    }
+
     public function engine() {
         $view = isset($_GET["view"]) ? $_GET["view"] : "";
 
         switch ($view) {
             case 'login':   
+                // Gérer le post de connexion
+                if (isset($_POST["id"]) && isset($_POST["password"])) {
+                    $id = $_POST["id"];
+                    $password = $_POST["password"];
+                    
+                    // Vérifier les identifiants
+                    if ($this->user->login($id, $password, $this->pdo)) {
+                        $_SESSION["userID"] = $this->user->getId($id);
+                        $this->user->loginMessage = "Connexion réussie";
+                        // Redirection vers le profil
+                        header("Location: " . $_SERVER['PHP_SELF'] . "?view=account");
+                        exit;
+                    } else {
+                        // Afficher un message d'erreur
+                        $this->user->loginMessage = "Identifiants incorrects"; 
+                    }
+                }
                 $this->login();
                 break;
-            
+                
             case 'account':
-                $this->account();
+                // Si l'utilisateur n'est pas connecté, on affiche la page de login
+                if (!isset($_SESSION["userID"])) {
+                    $this->login();
+                } else {
+                    // Sinon, on affiche le profil
+                    $this->account();
+                }
+                break;
+
+            case 'article':
+                $postID = isset($_GET["postID"]) ? $_GET["postID"] : "";
+                $this->viewArticle($postID);
+                break;
+
+            case 'addPost':
+                // Gérer l'ajout d'un post
                 break;
 
             default:
