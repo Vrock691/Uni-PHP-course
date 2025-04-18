@@ -21,11 +21,13 @@ class App {
 
     // Affiche la page de profil
     private function account() {
+        $_SESSION["user"]->fetchPosted($this->pdo);
         $this->tbs->LoadTemplate("./pages/account.html");
         $this->tbs->MergeField('name', $_SESSION["user"]->getName());
         $this->tbs->MergeField('bio', $_SESSION["user"]->getBio());
         $this->tbs->MergeField('status', $_SESSION["user"]->getStatus());
         $this->tbs->MergeField('id', $_SESSION["user"]->getId());
+        $this->tbs->MergeBlock("posts", $_SESSION["user"]->getPosts());
         $this->tbs->Show();
     }
 
