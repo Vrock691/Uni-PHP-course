@@ -28,7 +28,7 @@ class App {
         $this->tbs->MergeField('name', $_SESSION["user"]->getName());
         $this->tbs->MergeField('bio', $_SESSION["user"]->getBio());
         $this->tbs->MergeField('status', $_SESSION["user"]->getStatus());
-        $this->tbs->MergeField('id', $_SESSION["user"]->getId());
+        $this->tbs->MergeField('userID', $_SESSION["user"]->getId());
         $this->tbs->MergeBlock("posts", $_SESSION["user"]->getPosts());
         $this->tbs->Show();
     }
@@ -44,8 +44,19 @@ class App {
 
     // Affiche un article à partir de l'ID
     private function viewArticle($id) {
-        $this->tbs->LoadTemplate("./pages/post.html");
+        $post = new Post($this->pdo, $id);
+        $this->tbs->LoadTemplate("./pages/article.html");
         $this->tbs->MergeField('postText', ($_SESSION["loggedin"] != true) ? "" : "Poster");
+        $this->tbs->MergeField('title', $post->getTitle());
+        $this->tbs->MergeField('desc', $post->getDesc());
+        $this->tbs->MergeField('content', $post->getContent());
+        $this->tbs->MergeField('author', $post->getAuthor());
+        $this->tbs->MergeField('id', $post->getId());
+        $this->tbs->MergeField('created_at', $post->getCreatedAt());
+        $this->tbs->MergeField('authorName', $post->getAuthor()->getName());
+        $this->tbs->MergeField('authorBio', $post->getAuthor()->getBio());
+        $this->tbs->MergeField('authorStatus', $post->getAuthor()->getStatus());
+        $this->tbs->MergeField('authorID', $post->getAuthor()->getId());
         $this->tbs->Show();
     }
 
@@ -117,13 +128,13 @@ class App {
                         header("Location: " . $_SERVER['PHP_SELF'] . "?view=account");
                         exit;
                     }
-                    
+
                     $this->postEditor();
                 }
                 break;
 
             case 'article':
-                $postID = isset($_GET["postID"]) ? $_GET["postID"] : "";
+                $postID = isset($_GET["id"]) ? $_GET["id"] : "";
                 $this->viewArticle($postID);
                 break;
 

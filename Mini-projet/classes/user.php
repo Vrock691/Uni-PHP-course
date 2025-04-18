@@ -48,19 +48,19 @@ class User
     public function login($pdo)
     {
         // Gérer le post de connexion
-        if (isset($_POST["id"]) && isset($_POST["password"])) {
-            $id = $_POST["id"];
+        if (isset($_POST["userID"]) && isset($_POST["password"])) {
+            $id = $_POST["userID"];
             $password = $_POST["password"];
 
             // Vérifier les identifiants avec la bdd
-            $stmt = $pdo->prepare("SELECT id, name, bio, status FROM users WHERE id = :id AND password = :password");
+            $stmt = $pdo->prepare("SELECT userID, name, bio, status FROM users WHERE userID = :id AND password = :password");
             $stmt->bindParam(':id', $id);
             $stmt->bindParam(':password', $password);
             $stmt->execute();
 
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($user) {
-                $this->id = $user['id'];
+                $this->id = $user['userID'];
                 $this->name = $user['name'];
                 $this->bio = $user['bio'];
                 $this->status = $user['status'];
@@ -81,7 +81,7 @@ class User
 
     public function fetchPosted($pdo)
     {
-        $query = "SELECT * FROM posts JOIN users ON posts.author = users.id ORDER BY created_at DESC";
+        $query = "SELECT * FROM posts JOIN users ON posts.author = users.userID ORDER BY created_at DESC";
         $req = $pdo->prepare($query);
         $req->execute();
         $this->posts = $req->fetchAll(PDO::FETCH_ASSOC);
@@ -122,7 +122,7 @@ class User
         $stmt->bindParam(':name', $_SESSION["user"]->getName());
         $stmt->bindParam(':bio', $_SESSION["user"]->getBio());
         $stmt->bindParam(':status', $_SESSION["user"]->getStatus());
-        $stmt->bindParam(':id', $_SESSION["user"]->getId());
+        $stmt->bindParam(':userID', $_SESSION["user"]->getId());
         $stmt->execute();
     }
 }

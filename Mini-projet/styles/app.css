@@ -192,6 +192,12 @@ section, .login-form {
     cursor: pointer;
 }
 
+.author-div {
+    display: flex;
+    align-items: top;
+    gap: 10px;
+    margin-top: 10px;
+}
 
 @media screen and (max-width: 600px) {
 

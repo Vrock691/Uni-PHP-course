@@ -11,7 +11,7 @@ class Feed {
     }
 
     public function fetchFeed() {
-        $query = "SELECT * FROM posts JOIN users ON posts.author = users.id ORDER BY created_at DESC";
+        $query = "SELECT * FROM posts JOIN users ON posts.author = users.userID ORDER BY created_at DESC";
         $req = $this->pdo->prepare($query);
         $req->execute();
         $this->list = $req->fetchAll(PDO::FETCH_ASSOC);
