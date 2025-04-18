@@ -49,6 +49,13 @@ class App {
         $this->tbs->Show();
     }
 
+    // Affiche l'éditeur de post
+    private function postEditor() {
+        $this->tbs->LoadTemplate("./pages/edit.html");
+        $this->tbs->MergeField('postText', ($_SESSION["loggedin"] != true) ? "" : "Poster");
+        $this->tbs->Show();
+    }
+
     public function engine() {
         $view = isset($_GET["view"]) ? $_GET["view"] : "";
 
@@ -95,6 +102,23 @@ class App {
                     }
 
                     $this->account();
+                }
+                break;
+
+            case 'post':
+                // Si l'utilisateur n'est pas connecté, on affiche la page de login
+                if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] != true) {
+                    header("Location: " . $_SERVER['PHP_SELF'] . "?view=login");
+                    exit;
+                } else {
+                    // Sinon, on vérifie qu'il n'y aucun post à créer
+                    if (isset($_POST["title"]) && isset($_POST["desc"]) && isset($_POST["content"])) {
+                        $_SESSION["user"]->createPost($this->pdo);
+                        header("Location: " . $_SERVER['PHP_SELF'] . "?view=account");
+                        exit;
+                    }
+                    
+                    $this->postEditor();
                 }
                 break;
 

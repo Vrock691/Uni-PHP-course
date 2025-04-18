@@ -131,6 +131,39 @@ section, .login-form {
     cursor: pointer;
 }
 
+.edit-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-form input {
+    margin-top: 10px;
+}
+
+.edit-form input:focus {
+    outline: none;
+    border: none;
+}
+
+.edit-form textarea {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #979797;
+    border-radius: 5px;
+}
+
+.edit-form button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: max-content;
+    align-self: self-end;
+}
+
 @media screen and (max-width: 600px) {
 
     h1 {

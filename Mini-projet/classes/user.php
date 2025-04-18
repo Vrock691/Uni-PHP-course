@@ -93,6 +93,23 @@ class User
         return $this->posts;
     }
 
+    public function createPost($pdo) {
+        // Gérer le post de création
+        if (isset($_POST["title"]) && isset($_POST["desc"]) && isset($_POST["content"])) {
+            $title = $_POST["title"];
+            $desc = $_POST["desc"];
+            $content = $_POST["content"];
+
+            // Insérer le post dans la bdd
+            $stmt = $pdo->prepare("INSERT INTO posts (title, `desc`, content, author) VALUES (:title, :desc, :content, :author)");
+            $stmt->bindParam(':title', $title);
+            $stmt->bindParam(':desc', $desc);
+            $stmt->bindParam(':content', $content);
+            $stmt->bindParam(':author', $_SESSION["user"]->getId());
+            $stmt->execute();
+        }
+    }
+
     public function updateUser($pdo)
     {
         // Mise à jour des informations en local
