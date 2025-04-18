@@ -3,16 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/home.css">
     <title>Connexion à votre compte</title>
 </head>
 <body>
-    <form action="[onshow.cible]?view=login" method="post">
-        <p>[loginMessage]</p>
+    <nav>
+        <ul>
+            <li><a href="[onshow.cible]">Fil</a></li>
+            <li><a href="[onshow.cible]?view=account" class="selected">Profil</a></li>
+        </ul>
+    </nav>
+    <form action="[onshow.cible]?view=login" method="post" class="login-form">
+        <h1>[loginMessage]</h1>
         <fieldset>
             <legend>Identification</legend>
-            <label for="id">ID du compte</label> :
+            <label for="id">ID du compte</label>
             <input type="text" id="id" name="id" required />
-            <label for="password">Mot de passe</label> :
+            <label for="password">Mot de passe</label>
             <input type="password" id="password" name="password" required />
             <label for="submit"></label>
             <input type="submit" id="submit" value="Valider" />

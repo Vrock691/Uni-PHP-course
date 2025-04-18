@@ -54,7 +54,7 @@ main {
     height: calc(100vh - 60px);
 }
 
-section {
+section, .login-form {
     padding: 0 25%;
     display: flex;
     flex-direction: column;
@@ -103,9 +103,37 @@ section {
     background-color: #6d6d6d;
 }
 
+.login-form fieldset {
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form fieldset legend {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.login-form fieldset input {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #979797;
+    border-radius: 5px;
+}
+
+#submit {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 @media screen and (max-width: 600px) {
 
-    header h1 {
+    h1 {
         font-size: 24px;
     }
 
