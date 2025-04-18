@@ -15,6 +15,7 @@ class App {
     // Affiche la page de login
     private function login() {
         $this->tbs->LoadTemplate("./pages/login.html");
+        $this->tbs->MergeField('postText', ($_SESSION["loggedin"] != true) ? "" : "Poster");
         $this->tbs->MergeField('loginMessage', $_SESSION["user"]->loginMessage);
         $this->tbs->Show();
     }
@@ -23,6 +24,7 @@ class App {
     private function account() {
         $_SESSION["user"]->fetchPosted($this->pdo);
         $this->tbs->LoadTemplate("./pages/account.html");
+        $this->tbs->MergeField('postText', ($_SESSION["loggedin"] != true) ? "" : "Poster");
         $this->tbs->MergeField('name', $_SESSION["user"]->getName());
         $this->tbs->MergeField('bio', $_SESSION["user"]->getBio());
         $this->tbs->MergeField('status', $_SESSION["user"]->getStatus());
@@ -35,6 +37,7 @@ class App {
     private function feed() {
         $this->feed->fetchFeed();
         $this->tbs->LoadTemplate("./pages/feed.html");
+        $this->tbs->MergeField('postText', ($_SESSION["loggedin"] != true) ? "" : "Poster");
         $this->tbs->MergeBlock("feed", $this->feed->getFeed());
         $this->tbs->Show();
     }
@@ -42,6 +45,7 @@ class App {
     // Affiche un article à partir de l'ID
     private function viewArticle($id) {
         $this->tbs->LoadTemplate("./pages/post.html");
+        $this->tbs->MergeField('postText', ($_SESSION["loggedin"] != true) ? "" : "Poster");
         $this->tbs->Show();
     }
 
