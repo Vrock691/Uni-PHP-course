@@ -118,11 +118,11 @@ class User
         $_SESSION["user"]->setStatus($_POST["status"]);
 
         // On met à jour la base de données
-        $stmt = $pdo->prepare("UPDATE users SET name = :name, bio = :bio, status = :status WHERE id = :id");
+        $stmt = $pdo->prepare("UPDATE users SET name = :name, bio = :bio, status = :status WHERE userID = :id");
         $stmt->bindParam(':name', $_SESSION["user"]->getName());
         $stmt->bindParam(':bio', $_SESSION["user"]->getBio());
         $stmt->bindParam(':status', $_SESSION["user"]->getStatus());
-        $stmt->bindParam(':userID', $_SESSION["user"]->getId());
+        $stmt->bindParam(':id', $_SESSION["user"]->getId());
         $stmt->execute();
     }
 }
