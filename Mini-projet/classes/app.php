@@ -85,7 +85,11 @@ class App {
                     header("Location: " . $_SERVER['PHP_SELF'] . "?view=login");
                     exit;
                 } else {
-                    // Sinon, on affiche le profil
+                    // Sinon, on vérifie qu'il n'y aucun changement de variables
+                    if (isset($_POST["name"]) && isset($_POST["bio"]) && isset($_POST["status"])) {
+                        $_SESSION["user"]->updateUser($this->pdo);
+                    }
+
                     $this->account();
                 }
                 break;

@@ -1,6 +1,7 @@
-<?php 
+<?php
 
-class User {
+class User
+{
     private $id;
     private $name;
     private $bio;
@@ -11,25 +12,46 @@ class User {
 
     public function __construct() {}
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
-    public function getName() {
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+    public function getName()
+    {
         return $this->name;
     }
-    public function getBio() {
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+    public function getBio()
+    {
         return $this->bio;
     }
-    public function getStatus() {
+    public function setBio($bio)
+    {
+        $this->bio = $bio;
+    }
+    public function getStatus()
+    {
         return $this->status;
     }
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
 
-    public function login($pdo) {
+    public function login($pdo)
+    {
         // Gérer le post de connexion
         if (isset($_POST["id"]) && isset($_POST["password"])) {
             $id = $_POST["id"];
             $password = $_POST["password"];
-            
+
             // Vérifier les identifiants avec la bdd
             $stmt = $pdo->prepare("SELECT id, name, bio, status FROM users WHERE id = :id AND password = :password");
             $stmt->bindParam(':id', $id);
@@ -47,7 +69,7 @@ class User {
                 return true;
             } else {
                 // Afficher un message d'erreur
-                $this->loginMessage = "Identifiants incorrects"; 
+                $this->loginMessage = "Identifiants incorrects";
                 return false;
             }
         } else {
@@ -57,7 +79,8 @@ class User {
         }
     }
 
-    public function fetchPosted($pdo) {
+    public function fetchPosted($pdo)
+    {
         $query = "SELECT * FROM posts JOIN users ON posts.author = users.id ORDER BY created_at DESC";
         $req = $pdo->prepare($query);
         $req->execute();
@@ -65,8 +88,24 @@ class User {
         return $this->posts;
     }
 
-    public function getPosts() {
+    public function getPosts()
+    {
         return $this->posts;
     }
 
+    public function updateUser($pdo)
+    {
+        // Mise à jour des informations en local
+        $_SESSION["user"]->setName($_POST["name"]);
+        $_SESSION["user"]->setBio($_POST["bio"]);
+        $_SESSION["user"]->setStatus($_POST["status"]);
+
+        // On met à jour la base de données
+        $stmt = $pdo->prepare("UPDATE users SET name = :name, bio = :bio, status = :status WHERE id = :id");
+        $stmt->bindParam(':name', $_SESSION["user"]->getName());
+        $stmt->bindParam(':bio', $_SESSION["user"]->getBio());
+        $stmt->bindParam(':status', $_SESSION["user"]->getStatus());
+        $stmt->bindParam(':id', $_SESSION["user"]->getId());
+        $stmt->execute();
+    }
 }

@@ -23,8 +23,19 @@
                     clip-rule="evenodd" />
             </svg>
 
-            <h1>[name]</h1>
-            <p>Partagez vos idées et vos passions avec le monde !</p>
+            <form action="[onshow.cible]?view=account" method="post">
+                <input class="transparent-input" style="font-size: 2em; font-weight: bold;" type="text" name="name" id="name" placeholder="Entrez un nom" required value="[name]"/>
+                
+                <div class="otherinfos">
+                    <p>Bio</p>
+                    <input type="text" name="bio" id="bio" placeholder="Entrez votre bio" required value="[bio]"/>
+                
+                    <p>Statut</p>
+                    <input type="text" name="status" id="status" placeholder="Entrez votre status" required value="[status]"/>
+                    
+                    <button type="submit">Modifier mes informations</button>
+                </div>
+            </form>
         </header>
         <section>
             <h2>Vos posts</h2>
