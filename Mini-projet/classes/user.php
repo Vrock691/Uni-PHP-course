@@ -5,15 +5,11 @@ class User {
     private $name;
     private $bio;
     private $status;
+    private $posts = [];
 
     public $loginMessage = "";
 
-    public function __construct($id, $name, $bio, $status) {
-        $this->id = $id;
-        $this->name = $name;
-        $this->bio = $bio;
-        $this->status = $status;
-    }
+    public function __construct() {}
 
     public function getId() {
         return $this->id;
@@ -47,7 +43,6 @@ class User {
                 $this->bio = $user['bio'];
                 $this->status = $user['status'];
 
-                $_SESSION["userID"] = $this->getId($id);
                 $this->loginMessage = "Connexion réussie";
                 return true;
             } else {
@@ -60,6 +55,18 @@ class User {
             $this->loginMessage = "Veuillez entrer vos identifiants";
             return false;
         }
+    }
+
+    public function fetchPosted($pdo) {
+        $query = "SELECT * FROM posts JOIN users ON posts.author = users.id ORDER BY created_at DESC";
+        $req = $pdo->prepare($query);
+        $req->execute();
+        $this->posts = $req->fetchAll(PDO::FETCH_ASSOC);
+        return $this->posts;
+    }
+
+    public function getPosts() {
+        return $this->posts;
     }
 
 }

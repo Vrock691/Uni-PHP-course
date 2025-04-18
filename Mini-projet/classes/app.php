@@ -4,27 +4,32 @@ class App {
 
     private $tbs;
     private $feed;
-    private $user;
     private $pdo;
     
-    function __construct($tbs, $feed, $user, $pdo) {
+    function __construct($tbs, $feed, $pdo) {
         $this->tbs = $tbs;
         $this->feed = $feed;
-        $this->user = $user;
         $this->pdo = $pdo;
     }
 
+    // Affiche la page de login
     private function login() {
         $this->tbs->LoadTemplate("./pages/login.html");
-        $this->tbs->MergeField('loginMessage', $this->user->loginMessage);
+        $this->tbs->MergeField('loginMessage', $_SESSION["user"]->loginMessage);
         $this->tbs->Show();
     }
 
+    // Affiche la page de profil
     private function account() {
         $this->tbs->LoadTemplate("./pages/account.html");
+        $this->tbs->MergeField('name', $_SESSION["user"]->getName());
+        $this->tbs->MergeField('bio', $_SESSION["user"]->getBio());
+        $this->tbs->MergeField('status', $_SESSION["user"]->getStatus());
+        $this->tbs->MergeField('id', $_SESSION["user"]->getId());
         $this->tbs->Show();
     }
 
+    // Affiche le fil 
     private function feed() {
         $this->feed->fetchFeed();
         $this->tbs->LoadTemplate("./pages/feed.html");
@@ -32,6 +37,7 @@ class App {
         $this->tbs->Show();
     }
 
+    // Affiche un article à partir de l'ID
     private function viewArticle($id) {
         $this->tbs->LoadTemplate("./pages/post.html");
         $this->tbs->Show();
@@ -42,20 +48,24 @@ class App {
 
         switch ($view) {
             case 'login':   
-                if (isset($_SESSION["userID"])) {
+                if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                     header("Location: " . $_SERVER['PHP_SELF'] . "?view=");
                     exit;
                 }
 
-                if ($this->user->login($this->pdo)) {
+                $_SESSION["user"] = new User();
+                $_SESSION['loggedin'] = false;
+                if ($_SESSION["user"]->login($this->pdo)) {
                     // Connexion effectuée
                     // Redirection vers le profil
+                    $_SESSION["loggedin"] = true;
                     header("Location: " . $_SERVER['PHP_SELF'] . "?view=account");
                     exit;
                 } else {
                     // Connexion échouée
                     // Affichage du message d'erreur
-                    $this->tbs->MergeField('loginMessage', $this->user->loginMessage);
+                    $_SESSION["loggedin"] = false;
+                    $this->tbs->MergeField('loginMessage', $_SESSION["user"]->loginMessage);
                     $this->login();
                 }
                 break;
@@ -69,7 +79,7 @@ class App {
                 
             case 'account':
                 // Si l'utilisateur n'est pas connecté, on affiche la page de login
-                if (!isset($_SESSION["userID"])) {
+                if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] != true) {
                     header("Location: " . $_SERVER['PHP_SELF'] . "?view=login");
                     exit;
                 } else {

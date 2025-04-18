@@ -20,6 +20,34 @@ class Post {
         $this->created_at = $created_at;
         $this->image = $image;
     }
+
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getTitle() {
+        return $this->title;
+    }
+
+    public function getDesc() {
+        return $this->desc;
+    }
+
+    public function getContent() {
+        return $this->content;
+    }
+
+    public function getAuthor() {
+        return $this->author;
+    }
+
+    public function getCreatedAt() {
+        return $this->created_at;
+    }
+
+    public function getImage() {
+        return $this->image;
+    }
 }
 
 ?>

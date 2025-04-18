@@ -16,7 +16,6 @@ $dbStatus = "loading";
 
 // Initialisation de la session
 session_start();
-$user = new User(0, "", "", 0);
 
 try {
 
@@ -32,7 +31,7 @@ try {
     $feed = new Feed($pdo, $tbs);
 
     // Préparation de l'application
-    $app = new App($tbs, $feed, $user, $pdo);
+    $app = new App($tbs, $feed, $pdo);
     $app->engine();
 
 } catch (PDOException $error) {
