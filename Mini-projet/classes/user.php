@@ -81,8 +81,9 @@ class User
 
     public function fetchPosted($pdo)
     {
-        $query = "SELECT * FROM posts JOIN users ON posts.author = users.userID ORDER BY created_at DESC";
+        $query = "SELECT * FROM posts JOIN users ON posts.author = users.userID WHERE users.userID = :id ORDER BY created_at DESC";
         $req = $pdo->prepare($query);
+        $req->bindParam(':id', $_SESSION["user"]->getId());
         $req->execute();
         $this->posts = $req->fetchAll(PDO::FETCH_ASSOC);
         return $this->posts;
