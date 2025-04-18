@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/home.css">
+    <link rel="stylesheet" href="styles/app.css">
     <title>Blog</title>
 </head>
 
@@ -29,12 +29,13 @@
         </header>
         <section>
             <h2>Derniers posts</h2>
-            <article id="[feed.id;block=begin]">
+            [feed;block=begin]
+            <article id="[feed.id]" class="post-card" onclick="location.href='[onshow.cible]?view=article&id=[feed.id]'">
                 <h3>[feed.title]</h3>
                 <p>[feed.desc]</p>
-                <p>De [feed.name] - posté le [feed.created_at]</p>
+                <p class="from">De [feed.name] - posté le [feed.created_at]</p>
             </article>
-            [feed.id;block=end]
+            [feed;block=end]
         </section>
     </main>
 </body>

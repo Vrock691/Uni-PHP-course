@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/home.css">
+    <link rel="stylesheet" href="styles/app.css">
     <title>Blog</title>
 </head>
 
@@ -41,12 +41,13 @@
         </header>
         <section>
             <h2>Vos posts</h2>
-            <article id="[posts.id;block=begin]">
+            [posts;block=begin]
+            <article id="[posts.id]" class="post-card" onclick="location.href='[onshow.cible]?view=article&id=[posts.id]'">
                 <h3>[posts.title]</h3>
                 <p>[posts.desc]</p>
-                <p>De [posts.name] - posté le [posts.created_at]</p>
+                <p class="from">De [posts.name] - posté le [posts.created_at]</p>
             </article>
-            [posts.id;block=end]
+            [posts;block=end]
         </section>
     </main>
 </body>
