@@ -7,8 +7,8 @@ class App {
     private $user;
     private $pdo;
     
-    function __construct($_tbs, $feed, $user, $pdo) {
-        $this->tbs = $_tbs;
+    function __construct($tbs, $feed, $user, $pdo) {
+        $this->tbs = $tbs;
         $this->feed = $feed;
         $this->user = $user;
         $this->pdo = $pdo;

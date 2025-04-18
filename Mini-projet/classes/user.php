@@ -28,7 +28,7 @@ class User {
         return $this->status;
     }
 
-    public function login($id, $password, $pdo) {
+    public function login($pdo) {
         // Gérer le post de connexion
         if (isset($_POST["id"]) && isset($_POST["password"])) {
             $id = $_POST["id"];
